@@ -11,21 +11,28 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "dependencies": {
+    "mermaid": "^11.9.0"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.4",
     "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.0",
     "postcss": "^8.5.6",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "rollup": "^4.46.2",
     "rollup-plugin-dts": "^6.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
     "tslib": "^2.8.1",
     "typescript": "^5.9.2"
-  },
-  "dependencies": {
-    "react": "^19.1.1",
-    "rollup": "^4.46.2",
-    "rollup-plugin-postcss": "^4.0.2"
   }
 }

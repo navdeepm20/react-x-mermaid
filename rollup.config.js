@@ -5,7 +5,6 @@ import dts from "rollup-plugin-dts";
 import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
 import postcss from "rollup-plugin-postcss";
-// const packageJson = require("./package.json");
 
 export default [
   {
@@ -14,8 +13,7 @@ export default [
       dir: "dist",
       entryFileNames: "index.js",
       format: "cjs",
-      sourcemap: true,
-      exports: "default",
+      exports: "named",
     },
     plugins: [
       PeerDepsExternalPlugin(),
@@ -32,8 +30,7 @@ export default [
       dir: "dist",
       entryFileNames: "index.mjs",
       format: "esm",
-      sourcemap: true,
-      exports: "default",
+      exports: "named",
     },
     plugins: [
       PeerDepsExternalPlugin(),

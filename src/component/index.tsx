@@ -1,12 +1,7 @@
 import React, { useState, useRef, useEffect, useId, memo } from "react";
-import mermaid, { MermaidConfig } from "mermaid";
+import mermaid, { type MermaidConfig } from "mermaid";
+// styles
 import "./styles.css";
-
-mermaid.initialize({
-  startOnLoad: false, // required. Otherwise on intial load it will look for .mermaid element and will put svg there.
-  suppressErrorRendering: true,
-  theme: "default",
-});
 
 // Simple SVG icons to replace MUI icons
 const CopyIcon = () => (
@@ -18,13 +13,6 @@ const DownloadIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
     <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
   </svg>
-);
-
-// Simple code renderer component
-const CodeRenderer: React.FC<{ children: string }> = ({ children }) => (
-  <pre className="mermaid-code-renderer">
-    <code>{children}</code>
-  </pre>
 );
 
 // Download SVG function
@@ -51,7 +39,7 @@ const handleDownloadSvg = (
 };
 
 // Simple component based approach for rendering
-interface RenderMermaidProps {
+export interface RenderMermaidProps {
   mermaidCode: string;
   errorComponent?: React.ComponentType<{ error: string; mermaidCode: string }>;
   disableDownload?: boolean;
@@ -61,6 +49,12 @@ interface RenderMermaidProps {
   mermaidConfig?: MermaidConfig;
   renderCode?: React.ComponentType<{ code: string }>;
 }
+
+const CodeRenderer: React.FC<{ children: string }> = ({ children }) => (
+  <pre className="mermaid-code-renderer">
+    <code>{children}</code>
+  </pre>
+);
 
 function RenderMermaid({
   mermaidCode,
@@ -183,4 +177,21 @@ function RenderMermaid({
   );
 }
 
-export default memo(RenderMermaid);
+/**
+ * RenderMermaid (exported)
+ * @param {object} props - Component props
+ * @param {string} props.mermaidCode - Mermaid diagram source string.
+ * @param {React.ComponentType<{error:string; mermaidCode:string}>} [props.errorComponent] - Optional custom error UI.
+ * @param {boolean} [props.disableDownload] - When true, hides the download action.
+ * @param {boolean} [props.disableCopy] - When true, hides the copy action.
+ * @param {React.ComponentType<{onClick: ()=>void}>} [props.downloadComponent] - Optional custom download button component.
+ * @param {React.ComponentType<{onClick: ()=>void}>} [props.copyComponent] - Optional custom copy button component.
+ * @param {MermaidConfig} [props.mermaidConfig] - Partial mermaid config passed to mermaid.initialize.
+ * @param {React.ComponentType<{code:string}>} [props.renderCode] - Optional renderer for displaying the raw code.
+ * @return {JSX.Element} The rendered Mermaid diagram or error component.
+ */
+const RenderMermaidExport = memo(
+  RenderMermaid
+) as unknown as React.FC<RenderMermaidProps>;
+
+export default RenderMermaidExport;

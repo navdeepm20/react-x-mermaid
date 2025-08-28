@@ -1,5 +1,5 @@
 {
-  "name": "react-mermaid-wrapper",
+  "name": "react-x-mermaid",
   "version": "1.0.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

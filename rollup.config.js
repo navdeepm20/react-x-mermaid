@@ -14,6 +14,9 @@ export default [
       entryFileNames: "index.js",
       format: "cjs",
       exports: "named",
+      // Inline dynamic imports so Rollup doesn't create multiple chunk files
+      // when bundling dependencies that use dynamic import().
+      inlineDynamicImports: true,
     },
     plugins: [
       PeerDepsExternalPlugin(),
@@ -31,6 +34,7 @@ export default [
       entryFileNames: "index.mjs",
       format: "esm",
       exports: "named",
+      inlineDynamicImports: true,
     },
     plugins: [
       PeerDepsExternalPlugin(),
@@ -44,8 +48,7 @@ export default [
   {
     input: "src/index.ts",
     output: {
-      dir: "dist",
-      entryFileNames: "index.d.ts",
+      file: "dist/index.d.ts",
     },
     plugins: [dts.default()],
     external: [/\.css/],

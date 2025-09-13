@@ -70,10 +70,10 @@
   font-size: 14px;
   line-height: 1.4;
   overflow-x: auto;
-  white-space: pre-wrap;
+  white-space: pre-line;
   word-break: break-word;
   display: flex;
-  padding: 0em 0em 1em 0em;
+  padding: 1em;
 }
 
 .mermaid-code-renderer code {

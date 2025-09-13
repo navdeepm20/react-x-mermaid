@@ -1,2 +1,7 @@
-/dist
-/node_modules
+node_modules/
+dist/
+.husky/_
+*.log
+.DS_Store
+.vscode/
+.idea/

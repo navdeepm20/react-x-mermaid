@@ -74,6 +74,7 @@ function RenderMermaid({
   };
 
   useEffect(() => {
+    const currentRef = mermaidRef.current;
     // Flag to prevent updates after the component is unmounted
     let isMounted = true;
     const renderDiagram = async () => {
@@ -109,8 +110,8 @@ function RenderMermaid({
     // **THIS IS THE CRUCIAL CLEANUP FUNCTION**
     return () => {
       isMounted = false;
-      if (mermaidRef.current) {
-        mermaidRef.current.innerHTML = ""; // Clear the SVG on unmount
+      if (currentRef) {
+        currentRef.innerHTML = ""; // Clear the SVG on unmount
       }
     };
   }, [mermaidCode, id, mermaidConfig]);

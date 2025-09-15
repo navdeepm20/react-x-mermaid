@@ -1,28 +1,32 @@
 {
   "name": "react-x-mermaid",
-  "version": "0.1.0",
+  "version": "0.1.9",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "rollup": "rollup -c --bundleConfigAsCjs",
+    "build": "rollup -c --bundleConfigAsCjs",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write src/**/*.{ts,tsx,css}",
     "format:check": "prettier --check src/**/*.{ts,tsx,css}",
     "prepare": "husky"
   },
-  "author": "",
-  "license": "ISC",
+  "prepublishOnly": "npm run build",
+  "author": "Navdeep Mishra",
+  "license": "MIT",
   "description": "",
   "peerDependencies": {
+    "mermaid": ">=11.9.0",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
-  "dependencies": {
-    "mermaid": "^11.9.0"
+  "peerDependenciesMeta": {
+    "mermaid": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.6",
@@ -38,6 +42,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.6",
+    "mermaid": "^11.9.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "react": "^19.1.1",
@@ -46,6 +51,7 @@
     "rollup-plugin-dts": "^6.2.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-visualizer": "^6.0.3",
     "tslib": "^2.8.1",
     "typescript": "^5.9.2"
   },
@@ -57,5 +63,19 @@
     "src/**/*.css": [
       "prettier --write"
     ]
+  },
+  "keywords": [
+    "react",
+    "mermaid",
+    "react-x-mermaid",
+    "mermaid-chart",
+    "visualization"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/navdeepm20/react-x-mermaid"
+  },
+  "bugs": {
+    "url": "https://github.com/navdeepm20/react-x-mermaid/issues"
   }
 }

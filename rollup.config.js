@@ -5,6 +5,7 @@ import dts from "rollup-plugin-dts";
 import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
 import postcss from "rollup-plugin-postcss";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default [
   {
@@ -18,6 +19,7 @@ export default [
       // when bundling dependencies that use dynamic import().
       inlineDynamicImports: true,
     },
+    external: ["mermaid"],
     plugins: [
       PeerDepsExternalPlugin(),
       resolve(),
@@ -25,6 +27,11 @@ export default [
       typescript({ tsconfig: "./tsconfig.json" }),
       postcss(),
       terser(),
+      visualizer({
+        open: true, // This will automatically open the report in your browser
+        gzipSize: true, // Collect and display gzip sizes
+        brotliSize: true, // Collect and display brotli sizes
+      }),
     ],
   },
   {
@@ -36,6 +43,7 @@ export default [
       exports: "named",
       inlineDynamicImports: true,
     },
+    external: ["mermaid"],
     plugins: [
       PeerDepsExternalPlugin(),
       resolve(),
@@ -51,6 +59,6 @@ export default [
       file: "dist/index.d.ts",
     },
     plugins: [dts.default()],
-    external: [/\.css/],
+    external: [/\.css/, "mermaid"],
   },
 ];

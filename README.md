@@ -33,6 +33,15 @@ yarn add react-x-mermaid mermaid@^11.9.0
 
 Repo / docs: [github.com/navdeepm20/react-x-mermaid](https://github.com/navdeepm20/react-x-mermaid/blob/dev/README.md)
 
+## Migrating to 1.0.0
+
+See [CHANGELOG.md](./CHANGELOG.md) for the full list. Highlights:
+
+- React **18+** required
+- Install Mermaid explicitly; prefer `mermaid@^11.9.0` on Node 18/20
+- Hook no longer defaults to `securityLevel: "loose"` — opt in if needed
+- CJS build is `dist/index.cjs` (package `exports` handles resolution)
+
 ## Quick Start
 
 Render a diagram using the `Mermaid` component:

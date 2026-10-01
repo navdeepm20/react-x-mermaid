@@ -13,7 +13,10 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -33,11 +36,6 @@
     "mermaid": ">=11.9.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "mermaid": {
-      "optional": true
-    }
   },
   "engines": {
     "node": ">=18"

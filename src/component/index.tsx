@@ -157,7 +157,7 @@ function RenderMermaid({
   }
 
   return (
-    <div className="mermaid-renderer" key={mermaidCode}>
+    <div className="mermaid-renderer">
       {/* copy code and download buttons */}
       <div className="mermaid-actions">
         {!disableCopy &&

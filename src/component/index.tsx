@@ -75,16 +75,19 @@ function RenderMermaid({
 
   useEffect(() => {
     const currentRef = mermaidRef.current;
-    // Flag to prevent updates after the component is unmounted
-    let isMounted = true;
+    // Ignore stale async results after deps change or unmount
+    let cancelled = false;
     const renderDiagram = async () => {
       // Guard against empty or whitespace-only code
       if (!mermaidCode?.trim()) {
-        // if empty code, clear element.
-        if (mermaidRef.current) mermaidRef.current.innerHTML = "";
+        if (!cancelled && mermaidRef.current) {
+          mermaidRef.current.innerHTML = "";
+        }
         return;
       }
-      setError(null);
+      if (!cancelled) {
+        setError(null);
+      }
       try {
         // Always initialize Mermaid inside the effect for consistency
         mermaid.initialize({
@@ -95,23 +98,25 @@ function RenderMermaid({
         });
         const { svg } = await mermaid.render(`mermaid-${id}`, mermaidCode);
 
-        // Only update the DOM if the component is still mounted
-        if (isMounted && mermaidRef.current) {
+        // Only update the DOM if this effect is still current
+        if (!cancelled && mermaidRef.current) {
           mermaidRef.current.innerHTML = svg;
         }
       } catch (err) {
-        if (isMounted) {
+        if (!cancelled) {
           setError((err as Error).message);
+          if (mermaidRef.current) {
+            mermaidRef.current.innerHTML = "";
+          }
         }
       }
     };
 
     renderDiagram();
-    // **THIS IS THE CRUCIAL CLEANUP FUNCTION**
     return () => {
-      isMounted = false;
+      cancelled = true;
       if (currentRef) {
-        currentRef.innerHTML = ""; // Clear the SVG on unmount
+        currentRef.innerHTML = ""; // Clear the SVG on unmount / before re-run
       }
     };
   }, [mermaidCode, id, mermaidConfig]);

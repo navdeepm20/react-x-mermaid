@@ -7,31 +7,49 @@ const useMermaid = (chart: string, config: MermaidConfig = {}) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     const renderDiagram = async () => {
       try {
+        if (!chart?.trim()) {
+          if (cancelled) return;
+          setSvg("");
+          setError(null);
+          if (ref.current) {
+            ref.current.innerHTML = "";
+          }
+          return;
+        }
+
         mermaid.initialize({
           startOnLoad: false,
           theme: "default",
-          securityLevel: "loose",
           suppressErrorRendering: true,
           ...config,
         });
 
-        if (chart) {
-          const { svg } = await mermaid.render(`mermaid-${Date.now()}`, chart);
-          setSvg(svg);
-          setError(null);
-          if (ref.current) {
-            ref.current.innerHTML = svg;
-          }
+        const { svg } = await mermaid.render(`mermaid-${Date.now()}`, chart);
+        if (cancelled) return;
+        setSvg(svg);
+        setError(null);
+        if (ref.current) {
+          ref.current.innerHTML = svg;
         }
       } catch (err: unknown) {
+        if (cancelled) return;
         setError((err as Error).message);
         setSvg("");
+        if (ref.current) {
+          ref.current.innerHTML = "";
+        }
       }
     };
 
     renderDiagram();
+
+    return () => {
+      cancelled = true;
+    };
   }, [chart, config]);
 
   return { ref, svg, error };

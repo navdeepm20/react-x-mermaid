@@ -1,10 +1,20 @@
 {
   "name": "react-x-mermaid",
-  "version": "0.1.9",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "version": "1.0.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c --bundleConfigAsCjs",
@@ -12,16 +22,16 @@
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write src/**/*.{ts,tsx,css}",
     "format:check": "prettier --check src/**/*.{ts,tsx,css}",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prepublishOnly": "npm run build"
   },
-  "prepublishOnly": "npm run build",
   "author": "Navdeep Mishra",
   "license": "MIT",
   "description": "",
   "peerDependencies": {
     "mermaid": ">=11.9.0",
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "peerDependenciesMeta": {
     "mermaid": {

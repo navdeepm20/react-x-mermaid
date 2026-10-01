@@ -23,8 +23,8 @@ yarn add react-x-mermaid mermaid
 ## Peer dependencies:
 
 <br/>
-<img src="https://img.shields.io/badge/React->=16.8.0-blue">
-<img src="https://img.shields.io/badge/React Dom->=16.8.0-brightgreen">
+<img src="https://img.shields.io/badge/React->=18.0.0-blue">
+<img src="https://img.shields.io/badge/React Dom->=18.0.0-brightgreen">
 <img src="https://img.shields.io/badge/Mermaid->=11.9.0-ff69b4">
 
 ## Quick Start
@@ -438,4 +438,4 @@ Contributions are welcome. Please open issues or PRs for bugs and improvements. 
 MIT
 
 Keywords
-react react-componentmuimaterial-uimaterial design
+react react-x-mermaid react-mermaid mermaidjs

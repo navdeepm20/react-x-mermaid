@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import mermaid, { type MermaidConfig } from "mermaid";
+import { type MermaidConfig } from "mermaid";
+import { renderMermaidDiagram } from "../utils/renderMermaid";
 
 const useMermaid = (chart: string, config: MermaidConfig = {}) => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -21,19 +22,16 @@ const useMermaid = (chart: string, config: MermaidConfig = {}) => {
           return;
         }
 
-        mermaid.initialize({
-          startOnLoad: false,
-          theme: "default",
-          suppressErrorRendering: true,
-          ...config,
-        });
-
-        const { svg } = await mermaid.render(`mermaid-${Date.now()}`, chart);
+        const rendered = await renderMermaidDiagram(
+          `mermaid-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+          chart,
+          config
+        );
         if (cancelled) return;
-        setSvg(svg);
+        setSvg(rendered);
         setError(null);
         if (ref.current) {
-          ref.current.innerHTML = svg;
+          ref.current.innerHTML = rendered;
         }
       } catch (err: unknown) {
         if (cancelled) return;

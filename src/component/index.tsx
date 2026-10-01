@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, useId, memo } from "react";
-import mermaid, { type MermaidConfig } from "mermaid";
+import { type MermaidConfig } from "mermaid";
 // styles
 import "./styles.css";
+import { renderMermaidDiagram } from "../utils/renderMermaid";
 
 // Simple SVG icons to replace MUI icons
 const CopyIcon = () => (
@@ -89,14 +90,12 @@ function RenderMermaid({
         setError(null);
       }
       try {
-        // Always initialize Mermaid inside the effect for consistency
-        mermaid.initialize({
-          startOnLoad: false,
-          suppressErrorRendering: true,
-          theme: "default", // Ensure theme is set
-          ...mermaidConfig, // Allow user overrides
-        });
-        const { svg } = await mermaid.render(`mermaid-${id}`, mermaidCode);
+        // Serialized initialize+render so multi-instance themes do not race
+        const svg = await renderMermaidDiagram(
+          `mermaid-${id.replace(/:/g, "")}`,
+          mermaidCode,
+          mermaidConfig
+        );
 
         // Only update the DOM if this effect is still current
         if (!cancelled && mermaidRef.current) {

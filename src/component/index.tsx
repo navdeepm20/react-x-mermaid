@@ -3,6 +3,10 @@ import { type MermaidConfig } from "mermaid";
 // styles
 import "./styles.css";
 import { renderMermaidDiagram } from "../utils/renderMermaid";
+import {
+  mermaidConfigKey,
+  parseMermaidConfigKey,
+} from "../utils/mermaidConfigKey";
 
 // Simple SVG icons to replace MUI icons
 const CopyIcon = () => (
@@ -70,6 +74,7 @@ function RenderMermaid({
   const [error, setError] = useState<string | null>(null);
   const id = useId();
   const mermaidRef = useRef<HTMLDivElement | null>(null);
+  const configKey = mermaidConfigKey(mermaidConfig);
   const handleCopyCode = () => {
     navigator.clipboard.writeText(mermaidCode ?? "");
   };
@@ -78,6 +83,7 @@ function RenderMermaid({
     const currentRef = mermaidRef.current;
     // Ignore stale async results after deps change or unmount
     let cancelled = false;
+    const resolvedConfig = parseMermaidConfigKey(configKey);
     const renderDiagram = async () => {
       // Guard against empty or whitespace-only code
       if (!mermaidCode?.trim()) {
@@ -94,7 +100,7 @@ function RenderMermaid({
         const svg = await renderMermaidDiagram(
           `mermaid-${id.replace(/:/g, "")}`,
           mermaidCode,
-          mermaidConfig
+          resolvedConfig
         );
 
         // Only update the DOM if this effect is still current
@@ -118,7 +124,7 @@ function RenderMermaid({
         currentRef.innerHTML = ""; // Clear the SVG on unmount / before re-run
       }
     };
-  }, [mermaidCode, id, mermaidConfig]);
+  }, [mermaidCode, id, configKey]);
 
   if (error) {
     // Use custom error component if provided

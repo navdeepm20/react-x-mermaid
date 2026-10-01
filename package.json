@@ -27,7 +27,8 @@
   },
   "author": "Navdeep Mishra",
   "license": "MIT",
-  "description": "",
+  "description": "A small React wrapper component and hook for rendering Mermaid diagrams.",
+  "homepage": "https://github.com/navdeepm20/react-x-mermaid#readme",
   "peerDependencies": {
     "mermaid": ">=11.9.0",
     "react": ">=18.0.0",
@@ -37,6 +38,16 @@
     "mermaid": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/navdeepm20/react-x-mermaid.git"
+  },
+  "bugs": {
+    "url": "https://github.com/navdeepm20/react-x-mermaid/issues"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.6",
@@ -80,12 +91,5 @@
     "react-x-mermaid",
     "mermaid-chart",
     "visualization"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/navdeepm20/react-x-mermaid"
-  },
-  "bugs": {
-    "url": "https://github.com/navdeepm20/react-x-mermaid/issues"
-  }
+  ]
 }

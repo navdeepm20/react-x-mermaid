@@ -12,13 +12,17 @@ This package exposes a React component and a hook so you can render and control 
 
 ## Installation
 
-Install from npm:
+Install from npm. Prefer Mermaid **11.x** unless you are on Node.js ≥ 22.12
+(Mermaid 12+ requires that engine):
 
 ```bash
-npm install react-x-mermaid mermaid
+npm install react-x-mermaid mermaid@^11.9.0
 # or
-yarn add react-x-mermaid mermaid
+yarn add react-x-mermaid mermaid@^11.9.0
 ```
+
+> **Note:** `npm install mermaid` without a range may resolve to Mermaid 12,
+> which needs Node.js ≥ 22.12. On Node 18/20, pin `mermaid@^11.9.0`.
 
 ## Peer dependencies:
 
@@ -26,6 +30,8 @@ yarn add react-x-mermaid mermaid
 <img src="https://img.shields.io/badge/React->=18.0.0-blue">
 <img src="https://img.shields.io/badge/React Dom->=18.0.0-brightgreen">
 <img src="https://img.shields.io/badge/Mermaid->=11.9.0-ff69b4">
+
+Repo / docs: [github.com/navdeepm20/react-x-mermaid](https://github.com/navdeepm20/react-x-mermaid/blob/dev/README.md)
 
 ## Quick Start
 

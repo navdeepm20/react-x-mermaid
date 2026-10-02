@@ -12,7 +12,7 @@ export default [
     input: "src/index.ts",
     output: {
       dir: "dist",
-      entryFileNames: "index.js",
+      entryFileNames: "index.cjs",
       format: "cjs",
       exports: "named",
       // Inline dynamic imports so Rollup doesn't create multiple chunk files
@@ -28,9 +28,9 @@ export default [
       postcss(),
       terser(),
       visualizer({
-        open: true, // This will automatically open the report in your browser
-        gzipSize: true, // Collect and display gzip sizes
-        brotliSize: true, // Collect and display brotli sizes
+        open: false,
+        gzipSize: true,
+        brotliSize: true,
       }),
     ],
   },

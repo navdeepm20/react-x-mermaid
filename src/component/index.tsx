@@ -1,7 +1,12 @@
 import React, { useState, useRef, useEffect, useId, memo } from "react";
-import mermaid, { type MermaidConfig } from "mermaid";
+import { type MermaidConfig } from "mermaid";
 // styles
 import "./styles.css";
+import { renderMermaidDiagram } from "../utils/renderMermaid";
+import {
+  mermaidConfigKey,
+  parseMermaidConfigKey,
+} from "../utils/mermaidConfigKey";
 
 // Simple SVG icons to replace MUI icons
 const CopyIcon = () => (
@@ -69,52 +74,57 @@ function RenderMermaid({
   const [error, setError] = useState<string | null>(null);
   const id = useId();
   const mermaidRef = useRef<HTMLDivElement | null>(null);
+  const configKey = mermaidConfigKey(mermaidConfig);
   const handleCopyCode = () => {
     navigator.clipboard.writeText(mermaidCode ?? "");
   };
 
   useEffect(() => {
     const currentRef = mermaidRef.current;
-    // Flag to prevent updates after the component is unmounted
-    let isMounted = true;
+    // Ignore stale async results after deps change or unmount
+    let cancelled = false;
+    const resolvedConfig = parseMermaidConfigKey(configKey);
     const renderDiagram = async () => {
       // Guard against empty or whitespace-only code
       if (!mermaidCode?.trim()) {
-        // if empty code, clear element.
-        if (mermaidRef.current) mermaidRef.current.innerHTML = "";
+        if (!cancelled && mermaidRef.current) {
+          mermaidRef.current.innerHTML = "";
+        }
         return;
       }
-      setError(null);
+      if (!cancelled) {
+        setError(null);
+      }
       try {
-        // Always initialize Mermaid inside the effect for consistency
-        mermaid.initialize({
-          startOnLoad: false,
-          suppressErrorRendering: true,
-          theme: "default", // Ensure theme is set
-          ...mermaidConfig, // Allow user overrides
-        });
-        const { svg } = await mermaid.render(`mermaid-${id}`, mermaidCode);
+        // Serialized initialize+render so multi-instance themes do not race
+        const svg = await renderMermaidDiagram(
+          `mermaid-${id.replace(/:/g, "")}`,
+          mermaidCode,
+          resolvedConfig
+        );
 
-        // Only update the DOM if the component is still mounted
-        if (isMounted && mermaidRef.current) {
+        // Only update the DOM if this effect is still current
+        if (!cancelled && mermaidRef.current) {
           mermaidRef.current.innerHTML = svg;
         }
       } catch (err) {
-        if (isMounted) {
+        if (!cancelled) {
           setError((err as Error).message);
+          if (mermaidRef.current) {
+            mermaidRef.current.innerHTML = "";
+          }
         }
       }
     };
 
     renderDiagram();
-    // **THIS IS THE CRUCIAL CLEANUP FUNCTION**
     return () => {
-      isMounted = false;
+      cancelled = true;
       if (currentRef) {
-        currentRef.innerHTML = ""; // Clear the SVG on unmount
+        currentRef.innerHTML = ""; // Clear the SVG on unmount / before re-run
       }
     };
-  }, [mermaidCode, id, mermaidConfig]);
+  }, [mermaidCode, id, configKey]);
 
   if (error) {
     // Use custom error component if provided
@@ -147,7 +157,7 @@ function RenderMermaid({
   }
 
   return (
-    <div className="mermaid-renderer" key={mermaidCode}>
+    <div className="mermaid-renderer">
       {/* copy code and download buttons */}
       <div className="mermaid-actions">
         {!disableCopy &&
